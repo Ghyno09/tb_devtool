@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+</head>
+<body>
+  <!-- Left column: controls above, live readout below. Both modes drive these,
+       so the picker and the zone builder look like one tool. -->
+  <div id="left">
+    <aside id="controls" hidden>
+      <h2 id="controls-title"></h2>
+      <dl id="controls-list"></dl>
+    </aside>
+
+    <aside id="status" hidden>
+      <div class="status-head">
+        <span id="status-format" class="pill"></span>
+        <span id="status-distance"></span>
+      </div>
+      <p id="status-target"></p>
+      <p id="status-snap" hidden></p>
+    </aside>
+  </div>
+
+  <div id="panel" hidden>
+    <header>
+      <h1>Zone builder</h1>
+      <span id="count" class="count">0</span>
+      <button id="close" type="button" title="Close">&times;</button>
+    </header>
+
+    <div class="formats" role="tablist">
+      <button type="button" data-format="oxlib" class="on">ox_lib</button>
+      <button type="button" data-format="polyzone">PolyZone</button>
+      <button type="button" data-format="v3">vec3</button>
+      <button type="button" data-format="v4">vec4</button>
+    </div>
+
+    <ol id="points" aria-label="Placed points"></ol>
+    <p id="empty">Aim and press <kbd>E</kbd> to capture your first point.<br />Three make a zone; one is enough for a list.</p>
+
+    <div class="offset">
+      <span class="offset-label">Z offset</span>
+      <button id="z-down" type="button" title="Lower">&minus;</button>
+      <output id="z-value">+0.00</output>
+      <button id="z-up" type="button" title="Raise">+</button>
+      <button id="z-reset" type="button" class="reset">reset</button>
+    </div>
+
+    <div class="fields" id="fields">
+      <label id="thickness-field">Thickness
+        <input id="thickness" type="number" step="0.5" min="0.5" />
+      </label>
+      <label id="name-field">Name
+        <input id="name" type="text" maxlength="40" />
+      </label>
+    </div>
+
+    <pre id="snippet"></pre>
+
+    <footer>
+      <button id="copy" type="button" class="primary">Copy snippet</button>
+      <button id="clear" type="button">Clear</button>
+    </footer>
+
+    <p class="hint"><kbd>Esc</kbd> or <kbd>G</kbd> returns you to the camera</p>
+  </div>
+
+  <!--
+    The stylesheet and script are attached HERE, at runtime, with a timestamp
+    on the URL -- rather than written as plain <link>/<script> tags above.
+
+    FiveM's NUI is CEF, and CEF caches sub-resources by URL. A hand-written
+    ?v=N works only if you remember to bump it on every single edit, and the
+    failure when you forget is vicious: the page keeps running whatever it
+    cached, so an old broken copy of app.js throws ReferenceErrors against
+    line numbers that do not match the file on disk. Debugging that means
+    debugging code you are not looking at.
+
+    Date.now() means the URL is different on every page load, so there is
+    nothing to bump and nothing to forget. A dev tool has no reason to want
+    these cached anyway.
+
+    Appended to the end of <body> so the DOM the script queries already
+    exists by the time it runs.
+  -->
+  <script>
+    (function () {
+      var bust = '?v=' + Date.now();
+
+      var css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = 'style.css' + bust;
+      document.head.appendChild(css);
+
+      var js = document.createElement('script');
+      js.src = 'app.js' + bust;
+      document.body.appendChild(js);
+    })();
+  </script>
+</body>
+</html>

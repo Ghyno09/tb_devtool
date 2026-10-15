@@ -1,0 +1,35 @@
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials/
+secrets/
+
+# Local development
+.claude/
+.vscode/
+.idea/
+
+# Documentation
+docs/
+
+# Backups
+backup/
+backups/
+*.bak
+*.old
+*.zip
+*.rar
+*.7z
+
+# Temporary files
+cache/
+tmp/
+temp/
+*.log
+
+# Dependencies
+node_modules/
